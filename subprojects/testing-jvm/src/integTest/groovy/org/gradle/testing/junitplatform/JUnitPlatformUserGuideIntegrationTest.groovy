@@ -26,7 +26,7 @@ import static org.gradle.testing.fixture.JUnitCoverage.LATEST_JUPITER_VERSION
  * These test cases are all from http://junit.org/junit5/docs/current/user-guide
  */
 class JUnitPlatformUserGuideIntegrationTest extends JUnitPlatformIntegrationSpec {
-    def 'can display test case in @DisplayName'() {
+    def 'can display test case and test class in @DisplayName'() {
         given:
         file('src/test/java/org/gradle/DisplayNameDemo.java') << '''
 package org.gradle; 
@@ -45,7 +45,7 @@ class DisplayNameDemo {
 package org.gradle;
 import org.junit.jupiter.api.*;
 
-@DisplayName("A special test case")
+@DisplayName("A special test case2")
 class DisplayNameDemo2 {
 
     @Test
@@ -59,10 +59,14 @@ class DisplayNameDemo2 {
 
         then:
         def result = new DefaultTestExecutionResult(testDirectory)
-            .assertTestClassesExecuted('org.gradle.DisplayNameDemo', 'org.gradle.DisplayNameDemo2')
-        result.testClass('org.gradle.DisplayNameDemo').assertTestCount(1, 0, 0)
+            .assertTestClassesExecuted('A special test case2', 'A special test case2')
+        result.testClass('org.gradle.DisplayNameDemo')
+            .assertDisplayName('A special test case')
+            .assertTestCount(1, 0, 0)
             .assertTestPassed('Custom test name containing spaces')
-        result.testClass('org.gradle.DisplayNameDemo2').assertTestCount(1, 0, 0)
+        result.testClass('org.gradle.DisplayNameDemo2')
+            .assertDisplayName('A special test case2')
+            .assertTestCount(1, 0, 0)
             .assertTestPassed('╯°□°）╯')
     }
 

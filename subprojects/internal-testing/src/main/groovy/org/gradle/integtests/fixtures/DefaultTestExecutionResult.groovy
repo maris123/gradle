@@ -163,5 +163,10 @@ class DefaultTestExecutionResult implements TestExecutionResult {
             testClassResults*.assertExecutionFailedWithCause(causeMatcher)
             this
         }
+
+        TestClassExecutionResult assertDisplayName(String classDisplayName) {
+            testClassResults*.assertDispayName(classDisplayName)
+            this
+        }
     }
 }

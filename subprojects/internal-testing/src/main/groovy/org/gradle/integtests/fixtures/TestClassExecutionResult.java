@@ -72,4 +72,6 @@ public interface TestClassExecutionResult {
     TestClassExecutionResult assertTestCaseStderr(String testCaseName, Matcher<? super String> matcher);
 
     TestClassExecutionResult assertExecutionFailedWithCause(Matcher<? super String> causeMatcher);
+
+    TestClassExecutionResult assertDisplayName(String classDisplayName);
 }

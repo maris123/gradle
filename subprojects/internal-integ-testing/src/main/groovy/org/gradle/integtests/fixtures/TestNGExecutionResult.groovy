@@ -192,6 +192,12 @@ class TestNgTestClassExecutionResult implements TestClassExecutionResult {
         throw new UnsupportedOperationException();
     }
 
+    @Override
+    TestClassExecutionResult assertDisplayName(String classDisplayName) {
+        assert testClass == classDisplayName
+        this
+    }
+
     TestClassExecutionResult assertConfigMethodPassed(String name) {
         def testMethodNode = findConfigMethod(name)
         assert testMethodNode.@status as String == 'PASS'

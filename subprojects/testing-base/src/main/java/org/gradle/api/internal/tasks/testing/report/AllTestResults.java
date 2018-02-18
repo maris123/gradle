@@ -44,12 +44,20 @@ public class AllTestResults extends CompositeTestResults {
     }
 
     public TestResult addTest(long classId, String className, String testName, long duration) {
+        return addTest(classId, className, className, testName, duration);
+    }
+
+    public TestResult addTest(long classId, String className, String classDisplayName, String testName, long duration) {
         PackageTestResults packageResults = addPackageForClass(className);
-        return addTest(packageResults.addTest(classId, className, testName, duration));
+        return addTest(packageResults.addTest(classId, className, classDisplayName, testName, duration));
     }
 
     public ClassTestResults addTestClass(long classId, String className) {
-        return addPackageForClass(className).addClass(classId, className);
+        return addTestClass(classId, className, className);
+    }
+
+    public ClassTestResults addTestClass(long classId, String className, String classDisplayName) {
+        return addPackageForClass(className).addClass(classId, className, classDisplayName);
     }
 
     private PackageTestResults addPackageForClass(String className) {

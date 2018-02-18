@@ -74,6 +74,7 @@ class HtmlTestExecutionResult implements TestExecutionResult {
     }
 
     private static class HtmlTestClassExecutionResult implements TestClassExecutionResult {
+        private String classDisplayName
         private File htmlFile
         private List<String> testsExecuted = []
         private List<String> testsSucceeded = []
@@ -88,11 +89,12 @@ class HtmlTestExecutionResult implements TestExecutionResult {
         }
 
         private void parseTestClassFile() {
+            // " > TestClass" -> "TestClass"
+            classDisplayName = html.select('div.breadcrumbs').first().textNodes().last().wholeText.trim().substring(3)
             html.select("tr > td.success:eq(0)").each {
                 def testName = removeParentheses(it.textNodes().first().wholeText.trim())
                 testsExecuted << testName
                 testsSucceeded << testName
-
             }
             html.select("tr > td.failures:eq(0)").each {
                 def testName = it.textNodes().first().wholeText.trim()
@@ -174,6 +176,12 @@ class HtmlTestExecutionResult implements TestExecutionResult {
             def cause = testsFailures[failureMethodName].first().readLines().find { it.startsWith causeLinePrefix }?.substring(causeLinePrefix.length())
 
             Assert.assertThat(cause, causeMatcher)
+            this
+        }
+
+        @Override
+        TestClassExecutionResult assertDisplayName(String classDisplayName) {
+            assert classDisplayName == classDisplayName
             this
         }
 

@@ -125,6 +125,11 @@ class JUnitTestClassExecutionResult implements TestClassExecutionResult {
         this
     }
 
+    TestClassExecutionResult assertDisplayName(String classDisplayName) {
+        assert classDisplayName == testClassName
+        this
+    }
+
     TestClassExecutionResult assertTestSkipped(String name) {
         assertTestsSkipped(name)
     }
